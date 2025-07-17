@@ -33,6 +33,13 @@ A Next.js 15 application that helps families create calendar events using natura
 - **Recurring Events**: Supports daily, weekly, and monthly recurrence patterns
 - **Prompt Suggestions**: Pre-built examples for common family scheduling scenarios
 
+### Prompt Templates
+The app includes quick-start templates in four categories:
+1. **Date Nights & Romance**: Weekly date nights, romantic dinners, movie nights
+2. **Kids Activities**: Sports practices, music lessons, swimming classes
+3. **Workout & Fitness**: Gym sessions, yoga classes, running groups, HIIT training
+4. **Meal Planning & Diet**: Meal prep, grocery shopping, intermittent fasting reminders, dinner planning
+
 ### Data Flow
 1. User enters natural language request
 2. AI processes with date/time context
@@ -46,3 +53,4 @@ A Next.js 15 application that helps families create calendar events using natura
 - Handles both download and copy-to-clipboard for ICS files
 - Auto-syncs with v0.dev deployments
 - Includes comprehensive Radix UI component library integration
+- Dynamic date calculation for prompt suggestions (e.g., "next Monday", "next Saturday")
