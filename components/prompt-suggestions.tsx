@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Calendar, Heart, GraduationCap, Dumbbell, Briefcase, Users, Sparkles, Clock, Zap, Target, Brain, Rocket, ChevronLeft, ChevronRight } from "lucide-react"
+import { Calendar, Heart, GraduationCap, Dumbbell, Briefcase, Users, Sparkles, Clock, Zap, Target, Brain, Rocket, ChevronLeft, ChevronRight, Coffee, Book, Music } from "lucide-react"
 import { useRef, useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -60,96 +60,71 @@ const getNextMonday = () => {
   })
 }
 
-
 const promptTemplates = [
   {
-    id: "power-start",
-    title: "⚡ Power Start",
-    prompt: `Create my perfect morning routine: 5:30 AM wake up, 5:45 AM meditation, 6:00 AM workout, 6:45 AM cold shower, 7:00 AM healthy breakfast. Schedule this Monday-Friday starting ${getNextMonday()}`,
-    icon: Zap,
+    id: "morning-routine",
+    title: "☕ Morning Vibes",
+    prompt: `Help me create a relaxed morning routine: Wake up at 7 AM, enjoy coffee and breakfast, maybe some light stretching. Start next ${getNextMonday()} for 2 weeks to try it out`,
+    icon: Coffee,
     gradient: "from-yellow-500 to-orange-500",
-    tag: "Transform Your Mornings"
+    tag: "Start Your Day Right"
   },
   {
-    id: "family-sync",
-    title: "👨‍👩‍👧‍👦 Family Sync",
-    prompt: `Set up our family routine: Kids homework 4-5 PM, family dinner 6:30 PM, bedtime stories 8 PM. Add weekend family time Saturday 10 AM. Start this week, repeat for 3 months`,
+    id: "family-time",
+    title: "👨‍👩‍👧‍👦 Family Time",
+    prompt: `Let's plan some quality family time: Weekend breakfast together on Saturdays at 9 AM, and maybe a movie night on Fridays at 7 PM. Try it for the next month`,
     icon: Users,
     gradient: "from-blue-500 to-purple-500",
-    tag: "Harmony at Home"
+    tag: "Connect & Enjoy"
   },
   {
     id: "date-nights",
-    title: "💕 Love Rituals",
-    prompt: `Schedule date night every ${getNextSaturday()} at 7 PM for next 8 weeks. Alternate between dinner out and home movie night. Add reminder to book babysitter 2 days before`,
+    title: "💕 Date Ideas",
+    prompt: `Schedule a casual date night every other ${getNextSaturday()} at 7 PM. Could be dinner, a walk, or just coffee. Let's try 3 dates and see how it goes`,
     icon: Heart,
     gradient: "from-pink-500 to-red-500",
-    tag: "Keep Romance Alive"
+    tag: "Quality Time Together"
   },
   {
-    id: "fitness-goals",
-    title: "💪 Fitness Journey",
-    prompt: `Plan my workout schedule: Monday/Wednesday/Friday gym 6 AM, Tuesday/Thursday yoga 7 PM, Saturday morning run 8 AM. Include rest day Sunday. Start next week for 12 weeks`,
+    id: "fitness-start",
+    title: "💪 Move More",
+    prompt: `I'd like to be more active: Maybe a 30-minute walk on Monday, Wednesday, and Friday mornings at 8 AM. Let's start with just next week and see how I feel`,
     icon: Dumbbell,
     gradient: "from-green-500 to-teal-500",
-    tag: "Build Your Best Self"
+    tag: "Feel Good, Move More"
   },
   {
-    id: "kids-growth",
-    title: "🌟 Kids Activities",
-    prompt: `Soccer practice Tuesday/Thursday 4 PM starting ${getNextTuesday()}, Piano lessons Wednesday 3:30 PM, Swimming Saturday 10 AM. Schedule for 8 weeks with progress check reminders`,
-    icon: GraduationCap,
+    id: "hobby-time",
+    title: "🎨 Me Time",
+    prompt: `Block out some time for my hobbies: Tuesday and Thursday evenings from 7-8 PM for reading, crafts, or whatever I enjoy. Try it for 2 weeks`,
+    icon: Book,
     gradient: "from-purple-500 to-indigo-500",
-    tag: "Nurture Their Talents"
+    tag: "Pursue Your Passions"
   },
   {
-    id: "work-life",
-    title: "🎯 Work-Life Balance",
-    prompt: `Block focus time 9-11 AM daily for deep work, lunch break 12:30-1:30 PM, family time 5:30 PM sharp. No meetings Friday afternoons. Implement starting Monday`,
+    id: "work-balance",
+    title: "🎯 Work Smart",
+    prompt: `Help me focus better at work: Block 2 hours of uninterrupted work time from 10 AM-12 PM on weekdays, with a proper lunch break at 1 PM. Let's try next week`,
     icon: Target,
     gradient: "from-cyan-500 to-blue-500",
-    tag: "Master Your Time"
+    tag: "Productive & Balanced"
   },
   {
-    id: "mindfulness",
-    title: "🧘 Mindful Living",
-    prompt: `Daily meditation 6 AM (20 min), gratitude journaling before bed 9:30 PM, Sunday reflection hour 4 PM, monthly digital detox first Saturday. Begin this week`,
+    id: "mindful-moments",
+    title: "🧘 Breathe Easy",
+    prompt: `Add small mindful moments: 5 minutes of deep breathing at 9 AM, and maybe journaling before bed at 9 PM. Start with just weekdays next week`,
     icon: Brain,
     gradient: "from-indigo-500 to-purple-500",
-    tag: "Inner Peace Daily"
+    tag: "Small Steps, Big Impact"
   },
   {
-
-    id: "side-hustle",
-    title: "🚀 Side Project",
-    prompt: `Dedicate 5-7 AM weekdays to side business, Saturday 8 AM-12 PM for planning/strategy, Sunday evening 7-9 PM for week prep. Schedule for next 90 days with milestone reminders`,
-    icon: Rocket,
+    id: "weekend-fun",
+    title: "🎉 Weekend Plans",
+    prompt: `Plan something fun for weekends: Saturday morning coffee at my favorite café at 10 AM, Sunday afternoon free time from 2-4 PM. Let's schedule the next 3 weekends`,
+    icon: Music,
     gradient: "from-violet-500 to-purple-500",
-    tag: "Build Your Dream"
+    tag: "Enjoy Your Weekends"
   }
-
-    category: "Workout & Fitness",
-    icon: Dumbbell,
-    color: "text-orange-500",
-    prompts: [
-      `Morning gym session every Monday, Wednesday, and Friday at 6:30 AM starting ${getNextMonday()}`,
-      `Yoga class every Tuesday and Thursday at 7:00 PM for the next 4 weeks`,
-      `Weekend running group every Saturday at 7:00 AM and Sunday at 8:00 AM starting this weekend`,
-      `HIIT training every weekday at 5:30 PM starting tomorrow for 30 days`,
-    ],
-  },
-  {
-    category: "Meal Planning & Diet",
-    icon: Apple,
-    color: "text-green-500",
-    prompts: [
-      `Meal prep every Sunday at 2:00 PM for the next 8 weeks`,
-      `Weekly grocery shopping every Saturday at 10:00 AM starting this weekend`,
-      `Intermittent fasting reminder: eating window 12:00 PM - 8:00 PM daily starting tomorrow`,
-      `Family dinner planning session every Sunday at 5:00 PM for the month`,
-    ],
-  },
-
 ]
 
 export function PromptSuggestions({ onSelectPrompt }: PromptSuggestionsProps) {
@@ -196,15 +171,15 @@ export function PromptSuggestions({ onSelectPrompt }: PromptSuggestionsProps) {
 
   return (
     <div className="w-full space-y-3 sm:space-y-4">
-      {/* Header with futuristic feel - responsive text */}
+      {/* Header with friendly feel - responsive text */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-2">
         <div className="flex items-center gap-2">
           <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground animate-pulse" />
-          <h3 className="text-xs sm:text-sm font-medium text-muted-foreground">Life-Changing Templates</h3>
+          <h3 className="text-xs sm:text-sm font-medium text-muted-foreground">Quick Start Ideas</h3>
         </div>
         <div className="flex items-center gap-1 text-[10px] sm:text-xs text-muted-foreground">
           <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-          <span>One click to transform your life</span>
+          <span>Pick one to get started</span>
         </div>
       </div>
 
@@ -276,7 +251,7 @@ export function PromptSuggestions({ onSelectPrompt }: PromptSuggestionsProps) {
                   {/* Hover/tap indicator */}
                   <div className="flex items-center gap-1 text-[10px] sm:text-xs text-muted-foreground opacity-0 group-hover/card:opacity-100 sm:transition-opacity">
                     <Zap className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                    <span className="hidden sm:inline">Click to customize</span>
+                    <span className="hidden sm:inline">Click to try</span>
                     <span className="sm:hidden">Tap to use</span>
                   </div>
                 </div>
@@ -290,10 +265,10 @@ export function PromptSuggestions({ onSelectPrompt }: PromptSuggestionsProps) {
         <div className={`absolute right-0 top-0 bottom-3 sm:bottom-4 w-6 sm:w-8 bg-gradient-to-l from-background to-transparent pointer-events-none ${!canScrollRight && 'opacity-0'} transition-opacity`} />
       </div>
 
-      {/* Smart tip - responsive */}
+      {/* Friendly tip - responsive */}
       <div className="flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-muted-foreground px-2 text-center">
         <Calendar className="h-2.5 w-2.5 sm:h-3 sm:w-3 shrink-0" />
-        <span>Pro tip: Describe your ideal routine and let AI create the perfect recurring schedule</span>
+        <span>Tip: Start small and adjust as you go - you can always change your schedule later!</span>
       </div>
     </div>
   )
