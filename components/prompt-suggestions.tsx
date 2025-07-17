@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calendar, Heart, GraduationCap } from "lucide-react"
+import { Calendar, Heart, GraduationCap, Dumbbell, Apple } from "lucide-react"
 
 export interface PromptSuggestionsProps {
   onSelectPrompt: (prompt: string) => void
@@ -47,6 +47,18 @@ const getNextTuesday = () => {
   })
 }
 
+const getNextMonday = () => {
+  const today = new Date()
+  const osloTime = new Date(today.toLocaleString("en-US", { timeZone: "Europe/Oslo" }))
+  const nextMonday = new Date(osloTime)
+  const daysUntilMonday = (1 - osloTime.getDay() + 7) % 7 || 7
+  nextMonday.setDate(osloTime.getDate() + daysUntilMonday)
+  return nextMonday.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+  })
+}
+
 const promptTemplates = [
   {
     category: "Date Nights & Romance",
@@ -66,6 +78,28 @@ const promptTemplates = [
       `Soccer practice every Tuesday and Thursday at 4:00 PM starting ${getNextTuesday()}`,
       `Piano lessons every Wednesday at 3:30 PM beginning next week for 8 weeks`,
       `Swimming lessons every Saturday at 10:00 AM starting this weekend for 6 weeks`,
+    ],
+  },
+  {
+    category: "Workout & Fitness",
+    icon: Dumbbell,
+    color: "text-orange-500",
+    prompts: [
+      `Morning gym session every Monday, Wednesday, and Friday at 6:30 AM starting ${getNextMonday()}`,
+      `Yoga class every Tuesday and Thursday at 7:00 PM for the next 4 weeks`,
+      `Weekend running group every Saturday at 7:00 AM and Sunday at 8:00 AM starting this weekend`,
+      `HIIT training every weekday at 5:30 PM starting tomorrow for 30 days`,
+    ],
+  },
+  {
+    category: "Meal Planning & Diet",
+    icon: Apple,
+    color: "text-green-500",
+    prompts: [
+      `Meal prep every Sunday at 2:00 PM for the next 8 weeks`,
+      `Weekly grocery shopping every Saturday at 10:00 AM starting this weekend`,
+      `Intermittent fasting reminder: eating window 12:00 PM - 8:00 PM daily starting tomorrow`,
+      `Family dinner planning session every Sunday at 5:00 PM for the month`,
     ],
   },
 ]
