@@ -69,8 +69,8 @@ export function Chat({ className, ...props }: ChatProps) {
   }
 
   return (
-    <div className={cn("flex min-h-screen flex-col px-3", className)} {...props}>
-      <div className="flex-1 mx-auto w-full max-w-[35rem] px-3 pb-0">
+    <div className={cn("flex min-h-screen flex-col px-2 sm:px-3", className)} {...props}>
+      <div className="flex-1 mx-auto w-full max-w-[35rem] px-2 sm:px-3 pb-0">
         {messages.length ? (
           <MessageList
             messages={messages}
@@ -81,13 +81,22 @@ export function Chat({ className, ...props }: ChatProps) {
             handleRetry={handleRetry}
           />
         ) : (
-          <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
-            <div className="w-full max-w-4xl space-y-8">
-              <div className="max-w-md mx-auto">
+          <div className="flex items-center justify-center min-h-[calc(100vh-180px)] sm:min-h-[calc(100vh-200px)]">
+            <div className="w-full max-w-4xl space-y-6 sm:space-y-8">
+              <div className="max-w-md mx-auto px-2">
                 <Intro
                   title="Family Calendar Assistant"
                   description="Create calendar events from natural language. Describe your family's scheduling needs and get downloadable .ics files."
                   connectionMessage="Connect to Groq using the Vercel Integration to get started."
+                />
+              </div>
+              <div className="max-w-[35rem] mx-auto px-2">
+                <Prompt
+                  input={input}
+                  setInput={setInput}
+                  isLoading={isLoading}
+                  handleSubmit={handleSubmit}
+                  handleKeyDown={handleKeyDown}
                 />
               </div>
               <PromptSuggestions onSelectPrompt={handleSelectPrompt} />
@@ -96,13 +105,15 @@ export function Chat({ className, ...props }: ChatProps) {
         )}
       </div>
 
-      <Prompt
-        input={input}
-        setInput={setInput}
-        isLoading={isLoading}
-        handleSubmit={handleSubmit}
-        handleKeyDown={handleKeyDown}
-      />
+      {messages.length > 0 && (
+        <Prompt
+          input={input}
+          setInput={setInput}
+          isLoading={isLoading}
+          handleSubmit={handleSubmit}
+          handleKeyDown={handleKeyDown}
+        />
+      )}
     </div>
   )
 }
