@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Calendar, Heart, GraduationCap, Dumbbell, Briefcase, Users, Sparkles, Clock, Zap, Target, Brain, Rocket, ChevronLeft, ChevronRight } from "lucide-react"
 import { useRef, useState, useEffect } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export interface PromptSuggestionsProps {
   onSelectPrompt: (prompt: string) => void
@@ -59,7 +60,7 @@ const getNextMonday = () => {
   })
 }
 
-// Powerful templates that showcase the tool's potential
+
 const promptTemplates = [
   {
     id: "power-start",
@@ -118,6 +119,7 @@ const promptTemplates = [
     tag: "Inner Peace Daily"
   },
   {
+
     id: "side-hustle",
     title: "🚀 Side Project",
     prompt: `Dedicate 5-7 AM weekdays to side business, Saturday 8 AM-12 PM for planning/strategy, Sunday evening 7-9 PM for week prep. Schedule for next 90 days with milestone reminders`,
@@ -125,6 +127,29 @@ const promptTemplates = [
     gradient: "from-violet-500 to-purple-500",
     tag: "Build Your Dream"
   }
+
+    category: "Workout & Fitness",
+    icon: Dumbbell,
+    color: "text-orange-500",
+    prompts: [
+      `Morning gym session every Monday, Wednesday, and Friday at 6:30 AM starting ${getNextMonday()}`,
+      `Yoga class every Tuesday and Thursday at 7:00 PM for the next 4 weeks`,
+      `Weekend running group every Saturday at 7:00 AM and Sunday at 8:00 AM starting this weekend`,
+      `HIIT training every weekday at 5:30 PM starting tomorrow for 30 days`,
+    ],
+  },
+  {
+    category: "Meal Planning & Diet",
+    icon: Apple,
+    color: "text-green-500",
+    prompts: [
+      `Meal prep every Sunday at 2:00 PM for the next 8 weeks`,
+      `Weekly grocery shopping every Saturday at 10:00 AM starting this weekend`,
+      `Intermittent fasting reminder: eating window 12:00 PM - 8:00 PM daily starting tomorrow`,
+      `Family dinner planning session every Sunday at 5:00 PM for the month`,
+    ],
+  },
+
 ]
 
 export function PromptSuggestions({ onSelectPrompt }: PromptSuggestionsProps) {
