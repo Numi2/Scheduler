@@ -19,6 +19,17 @@ export const metadata = {
   creator: "Family Calendar Assistant",
   publisher: "Family Calendar Assistant",
   robots: "index, follow",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png" },
+    ],
+  },
+  manifest: "/site.webmanifest",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -39,9 +50,9 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Family Calendar Assistant - AI-Powered Scheduling Tool",
-    description: "Create calendar events from natural language. Get downloadable .ics files for any calendar app.",
+    description:
+      "Create calendar events from natural language. AI-powered family scheduling assistant.",
     images: ["/og-image.png"],
-    creator: "@familycalendar",
   },
   alternates: {
     canonical: "https://family-calendar-assistant.vercel.app",
