@@ -90,19 +90,30 @@ export function Chat({ className, ...props }: ChatProps) {
                   connectionMessage="Connect to Groq using the Vercel Integration to get started."
                 />
               </div>
+              <div className="max-w-[35rem] mx-auto">
+                <Prompt
+                  input={input}
+                  setInput={setInput}
+                  isLoading={isLoading}
+                  handleSubmit={handleSubmit}
+                  handleKeyDown={handleKeyDown}
+                />
+              </div>
               <PromptSuggestions onSelectPrompt={handleSelectPrompt} />
             </div>
           </div>
         )}
       </div>
 
-      <Prompt
-        input={input}
-        setInput={setInput}
-        isLoading={isLoading}
-        handleSubmit={handleSubmit}
-        handleKeyDown={handleKeyDown}
-      />
+      {messages.length > 0 && (
+        <Prompt
+          input={input}
+          setInput={setInput}
+          isLoading={isLoading}
+          handleSubmit={handleSubmit}
+          handleKeyDown={handleKeyDown}
+        />
+      )}
     </div>
   )
 }
