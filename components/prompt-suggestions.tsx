@@ -1,7 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Calendar, Heart, GraduationCap, Dumbbell, Briefcase, Users, Sparkles, Clock, Zap, Target, Brain, Rocket } from "lucide-react"
+import { Calendar, Heart, GraduationCap, Dumbbell, Briefcase, Users, Sparkles, Clock, Zap, Target, Brain, Rocket, ChevronLeft, ChevronRight } from "lucide-react"
+import { useRef, useState, useEffect } from "react"
 
 export interface PromptSuggestionsProps {
   onSelectPrompt: (prompt: string) => void
@@ -127,60 +128,131 @@ const promptTemplates = [
 ]
 
 export function PromptSuggestions({ onSelectPrompt }: PromptSuggestionsProps) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current
+      setCanScrollLeft(scrollLeft > 0)
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10)
+    }
+  }
+
+  useEffect(() => {
+    checkScroll()
+    const scrollElement = scrollRef.current
+    if (scrollElement) {
+      scrollElement.addEventListener('scroll', checkScroll)
+      return () => scrollElement.removeEventListener('scroll', checkScroll)
+    }
+  }, [])
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = isMobile ? 260 : 300
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      })
+    }
+  }
+
   return (
-    <div className="w-full space-y-4">
-      {/* Header with futuristic feel */}
-      <div className="flex items-center justify-between px-2">
+    <div className="w-full space-y-3 sm:space-y-4">
+      {/* Header with futuristic feel - responsive text */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-2">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-muted-foreground animate-pulse" />
-          <h3 className="text-sm font-medium text-muted-foreground">Life-Changing Templates</h3>
+          <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground animate-pulse" />
+          <h3 className="text-xs sm:text-sm font-medium text-muted-foreground">Life-Changing Templates</h3>
         </div>
-        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Clock className="h-3 w-3" />
+        <div className="flex items-center gap-1 text-[10px] sm:text-xs text-muted-foreground">
+          <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
           <span>One click to transform your life</span>
         </div>
       </div>
 
-      {/* Horizontally scrollable templates */}
-      <div className="relative">
-        <div className="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+      {/* Horizontally scrollable templates with navigation buttons */}
+      <div className="relative group">
+        {/* Navigation buttons - hidden on mobile for better UX */}
+        {!isMobile && (
+          <>
+            <button
+              onClick={() => scroll('left')}
+              className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full bg-background/80 backdrop-blur-sm border shadow-sm transition-all duration-200 ${
+                canScrollLeft ? 'opacity-100 hover:scale-110' : 'opacity-0 pointer-events-none'
+              }`}
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full bg-background/80 backdrop-blur-sm border shadow-sm transition-all duration-200 ${
+                canScrollRight ? 'opacity-100 hover:scale-110' : 'opacity-0 pointer-events-none'
+              }`}
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </>
+        )}
+
+        {/* Scrollable container */}
+        <div 
+          ref={scrollRef}
+          className="flex gap-2 sm:gap-3 overflow-x-auto pb-3 sm:pb-4 snap-x snap-mandatory scrollbar-hide overscroll-x-contain"
+          style={{ WebkitOverflowScrolling: 'touch' }}
+        >
           {promptTemplates.map((template) => {
             const IconComponent = template.icon
             return (
               <button
                 key={template.id}
                 onClick={() => onSelectPrompt(template.prompt)}
-                className="snap-start shrink-0 group relative overflow-hidden rounded-xl border bg-card p-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 w-[280px]"
+                className="snap-start shrink-0 group/card relative overflow-hidden rounded-lg sm:rounded-xl border bg-card p-3 sm:p-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 w-[240px] sm:w-[280px] touch-manipulation"
               >
                 {/* Gradient background on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${template.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${template.gradient} opacity-0 group-hover/card:opacity-10 transition-opacity duration-300`} />
                 
                 {/* Content */}
-                <div className="relative space-y-3">
+                <div className="relative space-y-2 sm:space-y-3">
                   {/* Header */}
                   <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className={`p-2 rounded-lg bg-gradient-to-br ${template.gradient} bg-opacity-10`}>
-                        <IconComponent className="h-4 w-4 text-foreground" />
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className={`p-1.5 sm:p-2 rounded-md sm:rounded-lg bg-gradient-to-br ${template.gradient} bg-opacity-10`}>
+                        <IconComponent className="h-3 w-3 sm:h-4 sm:w-4 text-foreground" />
                       </div>
-                      <h4 className="font-semibold text-sm">{template.title}</h4>
+                      <h4 className="font-semibold text-xs sm:text-sm">{template.title}</h4>
                     </div>
                   </div>
 
                   {/* Tag */}
-                  <div className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                  <div className="inline-flex items-center rounded-full bg-muted px-2 sm:px-2.5 py-0.5 text-[10px] sm:text-xs font-medium text-muted-foreground">
                     {template.tag}
                   </div>
 
                   {/* Preview text */}
-                  <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                     {template.prompt}
                   </p>
 
-                  {/* Hover indicator */}
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Zap className="h-3 w-3" />
-                    <span>Click to customize</span>
+                  {/* Hover/tap indicator */}
+                  <div className="flex items-center gap-1 text-[10px] sm:text-xs text-muted-foreground opacity-0 group-hover/card:opacity-100 sm:transition-opacity">
+                    <Zap className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
+                    <span className="hidden sm:inline">Click to customize</span>
+                    <span className="sm:hidden">Tap to use</span>
                   </div>
                 </div>
               </button>
@@ -188,14 +260,14 @@ export function PromptSuggestions({ onSelectPrompt }: PromptSuggestionsProps) {
           })}
         </div>
 
-        {/* Scroll indicators */}
-        <div className="absolute left-0 top-0 bottom-4 w-8 bg-gradient-to-r from-background to-transparent pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none" />
+        {/* Scroll indicators - more subtle on mobile */}
+        <div className={`absolute left-0 top-0 bottom-3 sm:bottom-4 w-6 sm:w-8 bg-gradient-to-r from-background to-transparent pointer-events-none ${!canScrollLeft && 'opacity-0'} transition-opacity`} />
+        <div className={`absolute right-0 top-0 bottom-3 sm:bottom-4 w-6 sm:w-8 bg-gradient-to-l from-background to-transparent pointer-events-none ${!canScrollRight && 'opacity-0'} transition-opacity`} />
       </div>
 
-      {/* Smart tip */}
-      <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-        <Calendar className="h-3 w-3" />
+      {/* Smart tip - responsive */}
+      <div className="flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-muted-foreground px-2 text-center">
+        <Calendar className="h-2.5 w-2.5 sm:h-3 sm:w-3 shrink-0" />
         <span>Pro tip: Describe your ideal routine and let AI create the perfect recurring schedule</span>
       </div>
     </div>
