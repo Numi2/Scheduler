@@ -2,14 +2,14 @@ import { Chat } from "@/components/chat"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Family Calendar Assistant - Create Events with AI",
+  title: "Free Calendar Assistant - Create Habits in your own cal with AI",
   description:
-    "Transform your family scheduling with AI. Describe your events in natural language and get downloadable .ics calendar files. Works with Google Calendar, Apple Calendar, and Outlook.",
+    "Repetetive scheduling with AI. Describe your events in natural language and get downloadable .ics calendar files. Works with Google Calendar, Apple Calendar, and Outlook.",
   openGraph: {
-    title: "Family Calendar Assistant - Create Events with AI",
+    title: "Free Calendar Assistant - Create Events with AI",
     description:
-      "Transform your family scheduling with AI. Describe your events in natural language and get downloadable .ics calendar files.",
-    url: "https://family-calendar-assistant.vercel.app",
+      "Repetetive scheduling with AI. Describe your events in natural language and get downloadable .ics calendar files. Works with Google Calendar, Apple Calendar, and Outlook. Describe your events in natural language and get downloadable .ics calendar files.",
+    url: "https://scheduleapp.org",
     type: "website",
   },
 }
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <h1 className="sr-only">Family Calendar Assistant - AI-Powered Scheduling Tool for Families</h1>
+      <h1 className="sr-only">Free Calendar Assistant - Free .ics calendar files for all calendars</h1>
       <Chat />
     </>
   )
